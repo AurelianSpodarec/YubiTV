@@ -7,7 +7,7 @@ class HomeView extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            items: [],
+            trending: [],
             isLoading: true,
         }
     }
@@ -17,30 +17,29 @@ class HomeView extends React.Component {
     }
 
     fetchData() {
-
-        fetch('https://api.themoviedb.org/3/trending/all/day?api_key=305')
+        fetch('https://api.themoviedb.org/3/trending/all/day?api_key=b087ad0af2324ccd0d4269ba88a1a305')
             .then( response => {
                 return response.json();
             })
             .then( myJSON => {
                 this.setState({
-                    items: myJSON.results,
+                    trending: myJSON.results,
                     isLoading: false,
                 })
             });
     }
 
     render() {
-        const { items, isLoading } = this.state;
+        const { trending, isLoading } = this.state;
 
         return (
-            <div>
-                
-                <Carousel 
-                    items={items}
-                    thumbnails
-                />
-                
+            <div> 
+                {trending.length === 0 ? 
+               "Loading"
+                 : 
+                 <Carousel 
+                items={trending}
+                thumbnails/>}
             </div>
         )
     }

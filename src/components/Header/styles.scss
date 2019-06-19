@@ -1,0 +1,12 @@
+.header {
+    background-color: #323232;
+    padding: 10px 32px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+
+    &__nav-list {
+        display: flex;        
+    }
+
+}

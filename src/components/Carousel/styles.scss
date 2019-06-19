@@ -1,0 +1,147 @@
+
+*, *:before, *:after {
+	box-sizing: border-box;
+
+    & {
+        outline: 0!important;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    // font-size: 14px;
+    // overflow: hidden;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 29px -74px 106px 0 #0e0e0e;
+    border-radius: 6px;
+    top: 0;
+    left: 0;
+}
+
+// ==========================================================================
+// #Carousel
+// ==========================================================================
+
+.carousel {
+    width: 100%;
+    position: relative;
+    height: 600px;
+    // padding: 0 32px;
+
+    &__inner {
+      padding: 0 32px;
+    }
+
+    &__image {
+        height: 100%;
+        background-position: center;
+        background-size: cover;
+    }
+
+    &__caption {
+        position: absolute;
+        top: 40%;
+        transform: translateY(-50%);
+
+    }
+
+    &__title {
+        background-color: #000;
+        font-family: 'Helvetica', 'Arial', 'sans-serif';
+        color: #ffb600;
+        width: auto;
+        padding: 2px 9px 6px;
+        font-size: 3em;
+        display: inline-block;
+        margin-bottom: 3px;
+    }
+
+    &__sub-title {
+        background-color: #000;
+        font-family: 'Helvetica', 'Arial', 'sans-serif';
+        color: white;
+        padding: 2px 9px 6px;
+        font-size: 1.8em;
+        display: inline-block;
+
+    }
+
+    &__subtitle {
+
+    }
+
+    &__release-date {
+
+    }
+
+    &__thumbnail-list {
+        left: 10px;
+        right: 10px;
+
+        position: absolute;
+        bottom: 30px;
+        // width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow-x: hidden;
+        // overflow: hidden;
+        white-space: nowrap;
+    }
+
+    &__thumbnail-item {
+        // width: 97px;
+        // height: 140px;
+        width: 130px;
+        height: 130px;
+        display: inline-block;
+        position: relative;
+        border: 4px solid;
+        cursor: pointer;
+        
+        &.is-active {
+            border-color: orange;
+            &:before {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                margin-top: -14px;
+                overflow: hidden;       
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 10px solid orange;
+            }
+        }
+    }
+
+    &__thumbnail-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    &__TEMP-button {
+        background-color: orange;
+        padding: 4px 14px;
+        color: black;
+        font-size: 1.2em;
+        font-weight: bold;
+        // font-size: 20px;
+
+        // border: none;
+    }
+}

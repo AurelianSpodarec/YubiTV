@@ -23,6 +23,7 @@ class Carousel extends React.Component {
         }
     }
 
+    // This can be put in React Context API
     async fetchGenreNames() {
         const response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US')
         const result = await response.json();

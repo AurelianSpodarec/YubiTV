@@ -15,21 +15,22 @@ class HomeView extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchTrending();
         this.fetchTopRated();
+        this.fetchTrending();
+        this.fetchAiringToday();
     }
 
     componentWillUpdate() {
          
     }
 
-    async fetchAiringToday() {
+    fetchAiringToday = async () => {
         const response = await fetch('https://api.themoviedb.org/3/tv/airing_today?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
             .then( response => {
                 return response.json();
             })
            
-            this.setState({ airingToday: response.results })
+            this.setState({ ...this.state, airingToday: response.results })
            
     }
 
@@ -39,25 +40,22 @@ class HomeView extends React.Component {
                 return response.json();
             })
              
-            this.setState({ trending: response.results })
+            this.setState({ ...this.state, trending: response.results })
            
     }
 
-    async fetchTopRated() {
-        await fetch('https://api.themoviedb.org/3/tv/top_rated?api_key=<<api_key>>&language=en-US&page=1')
+    fetchTopRated = async () => {
+        const response = await fetch('https://api.themoviedb.org/3/tv/top_rated?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
             .then( response => {
                 return response.json();
             })
-            .then(myJSON => {
-                this.setState({
-                    topRated: myJSON.results,
-                })
-            })
+            console.log(response);
+            this.setState({ ...this.state, topRated: response.results })
     }
 
     render() {
         const { trending, topRated, isLoading } = this.state;
-
+        
         return (
             <div> 
 
@@ -68,13 +66,13 @@ class HomeView extends React.Component {
                  : 
                 <Carousel items={trending} thumbnails/>} */}
 
-                <Carousel items={trending} thumbnails/>
+                <Carousel items={trending} />
               
+                <Carousel items={topRated} />
+
 
                 {/* TOP RATED */}
-                {topRated && topRated.length === 0 ? 
-                    "Loading"
-                :
+               
                     <div>
                         <h3>Top Rated</h3>
                         <ul>
@@ -82,18 +80,22 @@ class HomeView extends React.Component {
                                 return (
                                 <li>
                                     <img />
-                                    <h5>{x.name}</h5>
+                                    <h5>Name: {x.name}</h5>
                                 </li>
                                 )
                             })}
                         </ul>
                     </div>
-                }
+                
                  {/* <Carousel multiline /> */}
 
-                 {/* TV Schedule for Friday, June 21st */}
+                {/* TV Schedule for Friday, June 21st */}
+                            <div>
+                                <h3>TV Schedule for Friday, June 21st</h3>
+                            </div>
 
-                 {/* Just Aired */}
+
+                {/* Just Aired */}
 
 
             </div>

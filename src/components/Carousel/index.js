@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './styles.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 
 const config = {
     apiKey: 'b087ad0af2324ccd0d4269ba88a1a305',
@@ -14,6 +16,7 @@ class Carousel extends React.Component {
     constructor(props) {
         super(props) 
         this.state = {
+            isLoading: false,
             currentSlide: 0,
             genres: [],
             isPlaying: false,
@@ -23,19 +26,30 @@ class Carousel extends React.Component {
     async fetchGenreNames() {
         const response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US')
         const result = await response.json();
+        
         this.setState({ genres: result.genres });
     }
 
     getGenreNameById(id) {
         const { genres } = this.state;
-        
+
         const filtered = genres.find(genre => genre.id === id);
 
         if (!filtered) return;
         return filtered.name;
     }
+
+    // getMovieGenres() {
+    //     const { genres } = this.context;
+    //     const { movieGenres } = this.state;
+      
+    //     return genres.filter(genre => movieGenres.includes(genre.id).map(genre => genre.name)
+      
+    //   }
     
     componentDidMount() {
+        const { trending } = this.props;
+        if(!trending) return;
         this.fetchGenreNames();
     }
 
@@ -49,46 +63,59 @@ class Carousel extends React.Component {
     }
 
     renderSlide() {
+        
         const { items } = this.props;
         const { currentSlide } = this.state;
-        console.log(this.state.genres)
+        
+        if(!items.length) return null;
 
         const selectedSlide = items[currentSlide];
 
         return (
             <div className="carousel">
-            <div className="carousel__image" style={{backgroundImage: `url(${selectedSlide.poster_path ? config.images.secure_base_url + config.images.poster_sizes + items[currentSlide].poster_path : null})`}}>
+            <div className="carousel__image" style={{backgroundImage: `url(${selectedSlide.backdrop_path ? config.images.secure_base_url + config.images.poster_sizes + items[currentSlide].backdrop_path : null})`}}>
             <div className="carousel__inner">
-                {/* <img src={`$selectedSlide.poster_path ? config.images.secure_base_url + config.images.poster_sizes + items[currentSlide].poster_path : null}`}/> */}
+             
                     <div className="shadow"></div>
                     <div className="carousel__caption">
                         <div>
-                            <h3 className="carousel__title">{selectedSlide.title || items[currentSlide].name}</h3>
-                            <h4 className="carousel__sub-title">{selectedSlide.overview}</h4>
-                            <span className="carousel__release-date">
-                                <span>
+                            <div>
+                                <h3 className="carousel__title">{selectedSlide.title || items[currentSlide].name}</h3>
+                                
+                                <span className="carousel__movie-info">
+                                    <span>
+                                        {selectedSlide.genre_ids.map((genre, index )=> {
+                                            return <p className="carousel__genre">{this.getGenreNameById(genre)}{selectedSlide.genre_ids[index] === selectedSlide.genre_ids[selectedSlide.genre_ids.length - 1]  ? '' : ','  }</p> 
+                                        })}
+                                    </span>    
+                                    <span>{selectedSlide.release_date || selectedSlide.first_air_date}</span>
+                                    {selectedSlide.adult ? "Pegi 18" : ""}
+                                </span>
+                                <h4 className="carousel__sub-title">{selectedSlide.overview}</h4>
+                            </div>
 
-                                    {
-                                        selectedSlide.genre_ids.map(genre => {
-                                            return <p>{this.getGenreNameById(genre)}</p> 
-                                        })
-                                    }
-
-                                 {}
-                                    {/* this.state.genres.map(genre => {
-                                        return <p key={genre.id}>{getGenreNameById(this.state.genres)}</p>})
-                                    })
-                                    } */}
-                                </span>    
-                                <span>Release date: {selectedSlide.release_date}</span>
-                            </span>
+                            <div>
+                                <button className="carousel__TEMP-button">
+                                    
+                                    <FontAwesomeIcon icon={faPlay} />
+                                    <span style={{"margin-left": "10px"}}>Play</span>
+                                </button>
+                                <button style={{"background-color": "rgba(255, 255, 255, 0.44)", "color": "white"}} className="carousel__TEMP-button">More Info</button>
+                            </div>
                         </div>
-                        <button className="carousel__TEMP-button">See it now!</button>
+                        
                     </div>
-
+                    <div style={{"color": 'white',
+    "position": "absolute",
+    "right": "32px",
+    "top": "50px",
+    "font-size": "2em"}}>
+                            <FontAwesomeIcon icon={faChevronLeft} style={{"margin-right": "32px"}} />
+                            
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </div>
                     <ul className="carousel__thumbnail-list">
 
-                        {/* Check if item contains 'title' - if it doesn't, don't render the movie */}
                         {items.map((item, index) => {
                             return (
                                 <li key={index} className={`carousel__thumbnail-item ${index === currentSlide ? 'is-active' : "" }`} onClick={()=> this.setState({ currentSlide: index })}>

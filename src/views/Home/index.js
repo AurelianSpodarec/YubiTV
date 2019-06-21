@@ -8,38 +8,94 @@ class HomeView extends React.Component {
         super(props)
         this.state = {
             trending: [],
+            topRated: [],
+            airingToday: [],
             isLoading: true,
         }
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.fetchTrending();
+        this.fetchTopRated();
     }
 
-    fetchData() {
-        fetch('https://api.themoviedb.org/3/trending/all/day?api_key=b087ad0af2324ccd0d4269ba88a1a305')
+    componentWillUpdate() {
+         
+    }
+
+    async fetchAiringToday() {
+        const response = await fetch('https://api.themoviedb.org/3/tv/airing_today?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
             .then( response => {
                 return response.json();
             })
-            .then( myJSON => {
+           
+            this.setState({ airingToday: response.results })
+           
+    }
+
+    fetchTrending = async () => {
+        const response = await fetch('https://api.themoviedb.org/3/trending/movies/day?api_key=b087ad0af2324ccd0d4269ba88a1a305')
+            .then( response => {
+                return response.json();
+            })
+             
+            this.setState({ trending: response.results })
+           
+    }
+
+    async fetchTopRated() {
+        await fetch('https://api.themoviedb.org/3/tv/top_rated?api_key=<<api_key>>&language=en-US&page=1')
+            .then( response => {
+                return response.json();
+            })
+            .then(myJSON => {
                 this.setState({
-                    trending: myJSON.results,
-                    isLoading: false,
+                    topRated: myJSON.results,
                 })
-            });
+            })
     }
 
     render() {
-        const { trending, isLoading } = this.state;
+        const { trending, topRated, isLoading } = this.state;
 
         return (
             <div> 
-                {trending.length === 0 ? 
-               "Loading"
+
+
+                {/* MAIN CAROUSEL */}
+                 
+                 {/* {trending.length === 0 ? "Loading" 
                  : 
-                 <Carousel 
-                items={trending}
-                thumbnails/>}
+                <Carousel items={trending} thumbnails/>} */}
+
+                <Carousel items={trending} thumbnails/>
+              
+
+                {/* TOP RATED */}
+                {topRated && topRated.length === 0 ? 
+                    "Loading"
+                :
+                    <div>
+                        <h3>Top Rated</h3>
+                        <ul>
+                            {topRated && topRated.map(x => {
+                                return (
+                                <li>
+                                    <img />
+                                    <h5>{x.name}</h5>
+                                </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                }
+                 {/* <Carousel multiline /> */}
+
+                 {/* TV Schedule for Friday, June 21st */}
+
+                 {/* Just Aired */}
+
+
             </div>
         )
     }

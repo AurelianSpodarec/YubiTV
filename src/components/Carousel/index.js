@@ -26,13 +26,18 @@ class Carousel extends React.Component {
     // This can be put in React Context API
     async fetchGenreNames() {
         const response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US')
-        const result = await response.json();
-        
-        this.setState({ genres: result.genres });
+            .then( response => {
+                return response.json();
+            })
+        console.log("SSSS", response)
+        this.setState({ ...this.state, genres: response.genres });
     }
 
     getGenreNameById(id) {
         const { genres } = this.state;
+        if(!genres) return;
+
+        console.log("sdsddddddsds", genres);
 
         const filtered = genres.find(genre => genre.id === id);
 
@@ -49,8 +54,6 @@ class Carousel extends React.Component {
     //   }
     
     componentDidMount() {
-        const { trending } = this.props;
-        if(!trending) return;
         this.fetchGenreNames();
     }
 

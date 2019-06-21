@@ -24,11 +24,13 @@ class HomeView extends React.Component {
          
     }
 
+    
     fetchAiringToday = async () => {
         const response = await fetch('https://api.themoviedb.org/3/tv/airing_today?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
             .then( response => {
                 return response.json();
             })
+            console.log("Airing Today", response)
            
             this.setState({ ...this.state, airingToday: response.results })
            
@@ -90,6 +92,7 @@ class HomeView extends React.Component {
                  {/* <Carousel multiline /> */}
 
                 {/* TV Schedule for Friday, June 21st */}
+               
                             <div>
                                 <h3>TV Schedule for Friday, June 21st</h3>
                             </div>

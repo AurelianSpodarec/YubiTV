@@ -1,68 +1,25 @@
 import React from 'react';
+import config from './../../services/network/config';
+
 import styles from './styles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-
-const config = {
-    apiKey: 'b087ad0af2324ccd0d4269ba88a1a305',
-    images: {
-        secure_base_url: 'https://image.tmdb.org/t/p/',
-        poster_sizes: 'original', // w500
-    }
-}
 
 class Carousel extends React.Component {
 
     constructor(props) {
         super(props) 
         this.state = {
-            isLoading: false,
             currentSlide: 0,
-            genres: [],
+            isLoading: false,
             isPlaying: false,
         }
     }
 
-    // This can be put in React Context API
-    async fetchGenreNames() {
-        const response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US')
-            .then( response => {
-                return response.json();
-            })
-        this.setState({ ...this.state, genres: response.genres });
-    }
-
-    // Goes into FUnction file
-    getGenreNamesById(ids) {
-        const { genres } = this.state;
-        if(!genres) return;
-
-        console.log("sdsddddddsds", genres);
-
-        const filtered = genres.find(genre => genre.id === ids);
-
-        if (!filtered) return;
-        return filtered.name;
-    }
- 
-    componentDidMount() {
-        this.fetchGenreNames();
-    }
-
-    getImage() {
-        const { items } = this.props;
-        return items.poster_path;
-    }
-
-    getImages() {
-
-    }
-
-    renderSlide() {
-        
+    renderSlide() {        
         const { items } = this.props;
         const { currentSlide } = this.state;
-            console.log("Carousel", items)
+
         if(!items.length) return null;
 
         const selectedSlide = items[currentSlide];
@@ -79,11 +36,11 @@ class Carousel extends React.Component {
                                 <h3 className="carousel__title">{selectedSlide.title || items[currentSlide].name}</h3>
                                 
                                 <span className="carousel__movie-info">
-                                    <span>
+                                    {/* <span>
                                         {selectedSlide.genre_ids.map((genre, index )=> {
                                             return <p className="carousel__genre">{this.getGenreNamesById(genre)}{selectedSlide.genre_ids[index] === selectedSlide.genre_ids[selectedSlide.genre_ids.length - 1]  ? '' : ','  }</p> 
                                         })}
-                                    </span>    
+                                    </span>     */}
                                     <span>{selectedSlide.release_date || selectedSlide.first_air_date}</span>
                                     {selectedSlide.adult ? "Pegi 18" : ""}
                                 </span>
@@ -94,9 +51,9 @@ class Carousel extends React.Component {
                                 <button className="carousel__TEMP-button">
                                     
                                     <FontAwesomeIcon icon={faPlay} />
-                                    <span style={{"margin-left": "10px"}}>Play</span>
+                                    <span style={{"marginLeft": "10px"}}>Play</span>
                                 </button>
-                                <button style={{"background-color": "rgba(255, 255, 255, 0.44)", "color": "white"}} className="carousel__TEMP-button">More Info</button>
+                                <button style={{"backgroundColor": "rgba(255, 255, 255, 0.44)", "color": "white"}} className="carousel__TEMP-button">More Info</button>
                             </div>
                         </div>
                         
@@ -105,8 +62,8 @@ class Carousel extends React.Component {
     "position": "absolute",
     "right": "32px",
     "top": "50px",
-    "font-size": "2em"}}>
-                            <FontAwesomeIcon icon={faChevronLeft} style={{"margin-right": "32px"}} />
+    "fontSize": "2em"}}>
+                            <FontAwesomeIcon icon={faChevronLeft} style={{"marginRight": "32px"}} />
                             
                             <FontAwesomeIcon icon={faChevronRight} />
                         </div>

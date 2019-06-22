@@ -1,9 +1,8 @@
 import React from 'react';
-import Carousel from './../../components/Carousel';
+import Carousel from '../../components/Carousel';
 
-// Can be put in one index
-import { getTopRated, getAiringToday } from './../../config/api/tv';
-import { getTrending } from './../../config/api/trending';
+import { getTopRated, getAiringToday } from '../../services/network/api/tv';
+import { getTrending } from '../../services/network/api/trending';
 
 
 class HomeView extends React.Component {
@@ -61,7 +60,7 @@ class HomeView extends React.Component {
                         <ul>
                             {topRated && topRated.map(x => {
                                 return (
-                                <li>
+                                <li key={x.name}>
                                     <img />
                                     <h5>Name: {x.name}</h5>
                                 </li>

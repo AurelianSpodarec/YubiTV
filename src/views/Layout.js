@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route} from 'react-router-dom';
 
-import HomeView from './Home';
-import DiscoveryView from './Discovery';
+import HomeView from './Home/HomeView';
+import DiscoveryView from './Discovery/DiscoveryView';
 
 import Header from './../components/Header';
 import Footer from './../components/Footer';
@@ -17,6 +17,7 @@ class Container extends React.Component {
         )
     }
 }
+
 
 class Layout extends React.Component {
 

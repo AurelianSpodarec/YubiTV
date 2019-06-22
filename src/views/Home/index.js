@@ -19,26 +19,26 @@ class HomeView extends React.Component {
     }
 
     componentDidMount() {
-        
+        console.log(this.state)
         this.fetchData();
     }
 
     async fetchData() {
-        const topRated = await getTopRated().results;
-        const trending = await getTrending().results;
-        const airingToday = await getAiringToday().results;
-        console.log("Fetch", topRated)
+        const topRated = await getTopRated();
+        const trending = await getTrending();
+        const airingToday = await getAiringToday();
+        
         this.setState({
             ...this.state, 
-                topRated,
-                trending,
-                airingToday
+                topRated: topRated.results,
+                trending: trending.results,
+                airingToday: airingToday.results
         })
     }
 
     render() {
         const { trending, topRated, isLoading } = this.state;
-        console.log(trending, topRated)
+        
         return (
             <div> 
 

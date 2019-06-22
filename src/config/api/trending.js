@@ -18,7 +18,8 @@ const getTrending = async (type = 'all', time = 'day') => {
     if(!times[time]) return console.error(`API Trending: Type of '${time}' doesn't exist - you likely did a typing mistake or the time doesn't exist`)
 
     const res = await fetch(`https://api.themoviedb.org/3/trending/${types[type]}/${times[time]}?api_key=b087ad0af2324ccd0d4269ba88a1a305`, getRequest())
-    return res.json();
+    
+    return await res.json();
     
 }
 

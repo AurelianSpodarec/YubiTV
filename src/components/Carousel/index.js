@@ -32,13 +32,14 @@ class Carousel extends React.Component {
         this.setState({ ...this.state, genres: response.genres });
     }
 
-    getGenreNameById(id) {
+    // Goes into FUnction file
+    getGenreNamesById(ids) {
         const { genres } = this.state;
         if(!genres) return;
 
         console.log("sdsddddddsds", genres);
 
-        const filtered = genres.find(genre => genre.id === id);
+        const filtered = genres.find(genre => genre.id === ids);
 
         if (!filtered) return;
         return filtered.name;
@@ -61,7 +62,7 @@ class Carousel extends React.Component {
         
         const { items } = this.props;
         const { currentSlide } = this.state;
-        
+            console.log("Carousel", items)
         if(!items.length) return null;
 
         const selectedSlide = items[currentSlide];
@@ -80,7 +81,7 @@ class Carousel extends React.Component {
                                 <span className="carousel__movie-info">
                                     <span>
                                         {selectedSlide.genre_ids.map((genre, index )=> {
-                                            return <p className="carousel__genre">{this.getGenreNameById(genre)}{selectedSlide.genre_ids[index] === selectedSlide.genre_ids[selectedSlide.genre_ids.length - 1]  ? '' : ','  }</p> 
+                                            return <p className="carousel__genre">{this.getGenreNamesById(genre)}{selectedSlide.genre_ids[index] === selectedSlide.genre_ids[selectedSlide.genre_ids.length - 1]  ? '' : ','  }</p> 
                                         })}
                                     </span>    
                                     <span>{selectedSlide.release_date || selectedSlide.first_air_date}</span>

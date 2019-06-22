@@ -1,6 +1,10 @@
 import React from 'react';
 import Carousel from './../../components/Carousel';
 
+// Can be put in one index
+import { getTopRated, getAiringToday } from './../../config/api/tv';
+import { getTrending } from './../../config/api/trending';
+
 
 class HomeView extends React.Component {
     
@@ -15,49 +19,26 @@ class HomeView extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchTopRated();
-        this.fetchTrending();
-        this.fetchAiringToday();
+        
+        this.fetchData();
     }
 
-    componentWillUpdate() {
-         
-    }
-
-    
-    fetchAiringToday = async () => {
-        const response = await fetch('https://api.themoviedb.org/3/tv/airing_today?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
-            .then( response => {
-                return response.json();
-            })
-            console.log("Airing Today", response)
-           
-            this.setState({ ...this.state, airingToday: response.results })
-           
-    }
-
-    fetchTrending = async () => {
-        const response = await fetch('https://api.themoviedb.org/3/trending/movies/day?api_key=b087ad0af2324ccd0d4269ba88a1a305')
-            .then( response => {
-                return response.json();
-            })
-             
-            this.setState({ ...this.state, trending: response.results })
-           
-    }
-
-    fetchTopRated = async () => {
-        const response = await fetch('https://api.themoviedb.org/3/tv/top_rated?api_key=b087ad0af2324ccd0d4269ba88a1a305&language=en-US&page=1')
-            .then( response => {
-                return response.json();
-            })
-            console.log(response);
-            this.setState({ ...this.state, topRated: response.results })
+    async fetchData() {
+        const topRated = await getTopRated().results;
+        const trending = await getTrending().results;
+        const airingToday = await getAiringToday().results;
+        console.log("Fetch", topRated)
+        this.setState({
+            ...this.state, 
+                topRated,
+                trending,
+                airingToday
+        })
     }
 
     render() {
         const { trending, topRated, isLoading } = this.state;
-        
+        console.log(trending, topRated)
         return (
             <div> 
 

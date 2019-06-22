@@ -29,7 +29,6 @@ class Carousel extends React.Component {
             .then( response => {
                 return response.json();
             })
-        console.log("SSSS", response)
         this.setState({ ...this.state, genres: response.genres });
     }
 
@@ -44,15 +43,7 @@ class Carousel extends React.Component {
         if (!filtered) return;
         return filtered.name;
     }
-
-    // getMovieGenres() {
-    //     const { genres } = this.context;
-    //     const { movieGenres } = this.state;
-      
-    //     return genres.filter(genre => movieGenres.includes(genre.id).map(genre => genre.name)
-      
-    //   }
-    
+ 
     componentDidMount() {
         this.fetchGenreNames();
     }

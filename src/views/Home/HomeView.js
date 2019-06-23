@@ -1,9 +1,9 @@
 import React from 'react';
-import Carousel from '../../components/Carousel';
 
 import { getTopRated, getAiringToday } from '../../services/network/api/tv';
 import { getTrending } from '../../services/network/api/trending';
 
+import HomeCarousel from './components/HomeCarousel'
 
 class HomeView extends React.Component {
     
@@ -37,19 +37,23 @@ class HomeView extends React.Component {
 
     render() {
         const { trending, topRated, isLoading } = this.state;
-        
+
         return (
             <div> 
+
+                <HomeCarousel items={topRated} />
 
 
                 {/* MAIN CAROUSEL */}
                  
-                 {/* {trending.length === 0 ? "Loading" 
-                 : 
-                <Carousel items={trending} thumbnails/>} */}
+                {/*
+                    {trending.length === 0 ? "Loading" 
+                    : 
+                    <Carousel items={trending} thumbnails/>} 
+                */}
 
+                {/* 
                 <Carousel items={trending} />
-              
                 <Carousel items={topRated} />
 
 
@@ -72,13 +76,14 @@ class HomeView extends React.Component {
                  {/* <Carousel multiline /> */}
 
                 {/* TV Schedule for Friday, June 21st */}
-               
-                            <div>
-                                <h3>TV Schedule for Friday, June 21st</h3>
-                            </div>
 
+                {/*                
+                <div>
+                    <h3>TV Schedule for Friday, June 21st</h3>
+                </div>
+                */}
 
-                {/* Just Aired */}
+                {/* Just Aired */} 
 
 
             </div>
@@ -87,41 +92,3 @@ class HomeView extends React.Component {
 }
 
 export default HomeView;
-
-
-
-
-
-
-
-
-// WITH HOOKS
-// import React, { useState, useEffect } from 'react';
-// import Carousel from './../../components/Carousel';
-
-
-// const HomeView = () => {
-//     const [items, setItems] = useState([]);
-//     const [isLoading, setIsLoading] = useState(true);
-    
-//     useEffect(() => {
-//     fetch('https://api.themoviedb.org/3/trending/all/day?api_key=305')
-//             .then( response => {
-//                 return response.json();
-//             })
-//             .then( myJSON => {
-//                 setItems(myJSON)
-//                 setIsLoading(false);
-//             })
-//     }, [])
-//     return (
-//         <div>
-//             <Carousel 
-//                 items={items.results}
-//                 thumbnails
-//             />
-//          </div>
-//     )
-// }
-
-// export default HomeView;
